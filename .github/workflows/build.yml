@@ -4,12 +4,20 @@ jobs:
   build:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Fetch Core Source Code
+        uses: actions/checkout@v4
         with:
           repository: kevinerikjs/gta5-ios-port
-      - name: Build IPA
+          ref: main
+
+      - name: Set Script Permissions
+        run: chmod +x ./build_ipa
+
+      - name: Compile Game Binary
         run: ./build_ipa
-      - uses: actions/upload-artifact@v4
+
+      - name: Package App Installer
+        uses: actions/upload-artifact@v4
         with:
           name: gta5-port-ipa
           path: "*.ipa"
